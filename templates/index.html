@@ -3,177 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتب وكلاء الذكاء الاصطناعي التفاعلي</title>
+    <title>PIXEL AGENTS HQ</title>
     <style>
-        body { background-color: #0f172a; color: #f8fafc; font-family: Tahoma, sans-serif; margin: 0; padding: 20px; }
-        h1 { text-align: center; color: #38bdf8; margin-bottom: 5px; }
-        p.subtitle { text-align: center; color: #94a3b8; margin-top: 0; }
-        
-        .office-container {
+        body { background-color: #0b0f19; color: #f8fafc; font-family: Tahoma, sans-serif; margin: 0; padding: 10px; }
+        .header { background: #131c31; border: 1px solid #1e293b; border-radius: 10px; padding: 10px; text-align: center; margin-bottom: 10px; }
+        .header h2 { color: #38bdf8; margin: 0; font-size: 18px; }
+        .header p { color: #94a3b8; font-size: 11px; margin: 5px 0 0; }
+
+        /* منطقة البكسل أرت */
+        .pixel-office {
+            background: #090d16;
+            border: 2px solid #1e293b;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-around;
-            background: #1e293b;
-            border: 2px solid #334155;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            position: relative;
-            min-height: 300px;
         }
-
-        .agent-station {
-            width: 45%;
+        .agent-room {
+            width: 48%;
             background: #0f172a;
-            border: 1px solid #475569;
+            border: 1px solid #334155;
             border-radius: 8px;
-            padding: 15px;
+            padding: 8px;
             text-align: center;
         }
-
-        .avatar {
-            font-size: 40px;
-            margin: 10px 0;
-            transition: transform 0.5s ease;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .status-idle { background: #eab308; color: #000; }
-        .status-walking { background: #3b82f6; color: #fff; }
-        .status-working { background: #22c55e; color: #fff; }
-
-        .control-panel {
-            background: #1e293b;
-            border: 2px solid #334155;
-            border-radius: 12px;
-            padding: 20px;
-        }
-
-        input, textarea, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            margin-bottom: 15px;
-            border-radius: 6px;
-            border: 1px solid #475569;
-            background: #0f172a;
-            color: #fff;
-            box-sizing: border-box;
-        }
-
-        button {
-            background: #3b82f6;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        button:hover { background: #2563eb; }
-
-        .logs {
+        .pixel-screen {
             background: #020617;
-            padding: 10px;
+            height: 90px;
             border-radius: 6px;
-            height: 120px;
+            border: 1px solid #1e293b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        /* لوحات التحكم والبطاقات */
+        .control-card {
+            background: #131c31;
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .card-header-1 { border-right: 4px solid #22c55e; padding-right: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .card-header-2 { border-right: 4px solid #a855f7; padding-right: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        
+        .badge-1 { background: #064e3b; color: #34d399; padding: 2px 8px; border-radius: 12px; font-size: 11px; }
+        .badge-2 { background: #581c87; color: #c084fc; padding: 2px 8px; border-radius: 12px; font-size: 11px; }
+
+        textarea, input {
+            width: 100%;
+            background: #090d16;
+            border: 1px solid #334155;
+            color: #fff;
+            padding: 8px;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 12px;
+            resize: none;
+            margin-bottom: 8px;
+        }
+
+        .actions-row { display: flex; gap: 8px; }
+        .btn-send-1 { background: #22c55e; color: #000; font-weight: bold; border: none; padding: 8px; border-radius: 6px; flex: 2; cursor: pointer; }
+        .btn-send-2 { background: #a855f7; color: #fff; font-weight: bold; border: none; padding: 8px; border-radius: 6px; flex: 2; cursor: pointer; }
+        .btn-rest { background: #1e293b; color: #94a3b8; border: 1px solid #475569; padding: 8px; border-radius: 6px; flex: 1; cursor: pointer; font-size: 11px; }
+
+        /* منطقة السجلات (Live Logs) */
+        .logs-box {
+            background: #050508;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            padding: 8px;
+            height: 140px;
             overflow-y: auto;
             font-family: monospace;
-            font-size: 13px;
+            font-size: 11px;
             color: #38bdf8;
-            text-align: left;
+            text-align: right;
+            white-space: pre-wrap;
         }
+        .logs-header { display: flex; justify-content: space-between; color: #94a3b8; font-size: 12px; margin-bottom: 5px; }
+        .footer-status { text-align: center; font-size: 11px; color: #64748b; margin-top: 10px; }
+        .active-dot { color: #22c55e; }
     </style>
 </head>
 <body>
 
-    <h1>نظام وكلاء الذكاء الاصطناعي المكتبي</h1>
-    <p class="subtitle">نموذج Kimi K3 عبر NVIDIA NIM API</p>
+    <div class="header">
+        <h2>PIXEL AGENTS HQ</h2>
+        <p>منصة إدارة وتوجيه وكلاء الذكاء الاصطناعي التفاعلية</p>
+    </div>
 
-    <div class="office-container">
-        <div class="agent-station" id="station-1">
-            <h3>الوكيل الأول (خبير الرؤية والتحليل)</h3>
-            <div class="avatar" id="avatar-1">🛋️</div>
-            <p>الحالة: <span class="status-badge status-idle" id="status-1">في الاستراحة</span></p>
-            <div class="logs" id="log-1">في انتظار الأوامر...</div>
+    <!-- غرفة البكسل أرت المرئية -->
+    <div class="pixel-office">
+        <div class="agent-room">
+            <div style="font-size: 11px; color: #34d399; margin-bottom: 4px;">مكتب الوكيل 1</div>
+            <div class="pixel-screen" id="room-1">🪑🛋️</div>
+            <span style="font-size: 10px; color: #94a3b8;" id="status-text-1">مستريح على الأريكة</span>
         </div>
-
-        <div class="agent-station" id="station-2">
-            <h3>الوكيل الثاني (المطور والمنفذ)</h3>
-            <div class="avatar" id="avatar-2">🛋️</div>
-            <p>الحالة: <span class="status-badge status-idle" id="status-2">في الاستراحة</span></p>
-            <div class="logs" id="log-2">في انتظار الأوامر...</div>
+        <div class="agent-room">
+            <div style="font-size: 11px; color: #c084fc; margin-bottom: 4px;">مكتب الوكيل 2</div>
+            <div class="pixel-screen" id="room-2">🪑🛋️</div>
+            <span style="font-size: 10px; color: #94a3b8;" id="status-text-2">مستريح على الأريكة</span>
         </div>
     </div>
 
-    <div class="control-panel">
-        <h3>لوحة الأوامر وتوجيه الوكلاء</h3>
-        <label>اختر الوكيل:</label>
-        <select id="agentSelect">
-            <option value="1">الوكيل الأول</option>
-            <option value="2">الوكيل الثاني</option>
-        </select>
+    <!-- لوحة تحكم الوكيل الأول -->
+    <div class="control-card">
+        <div class="card-header-1">
+            <span style="font-size: 13px; font-weight: bold; color: #34d399;">الوكيل 1: المحلل والمبرمج</span>
+            <span class="badge-1" id="badge-1">مستريح على الأريكة</span>
+        </div>
+        <textarea id="prompt-1" rows="2" placeholder="اكتب المهمة هنا (مثال: حلل المسألة أو اشرح الصورة)...">What is in this image? اشرح لي محتوى الصورة</textarea>
+        <div class="actions-row">
+            <button class="btn-send-1" onclick="runAgent(1)">إرسال إلى الكمبيوتر 💻</button>
+            <button class="btn-rest" onclick="setRest(1)">استراحة 🛋️</button>
+        </div>
+    </div>
 
-        <label>أمر المهمة (Prompt):</label>
-        <input type="text" id="promptInput" value="What is in this image? اشرح لي محتوى الصورة بدقة">
+    <!-- لوحة تحكم الوكيل الثاني -->
+    <div class="control-card">
+        <div class="card-header-2">
+            <span style="font-size: 13px; font-weight: bold; color: #c084fc;">الوكيل 2: المصمم والكاتب</span>
+            <span class="badge-2" id="badge-2">مستريح على الأريكة</span>
+        </div>
+        <textarea id="prompt-2" rows="2" placeholder="اكتب المهمة هنا (مثال: اكتب خطة أو أجب عن سؤال)...">ما هي عاصمة السعودية وأبرز معالمها؟</textarea>
+        <div class="actions-row">
+            <button class="btn-send-2" onclick="runAgent(2)">إرسال إلى الكمبيوتر 💻</button>
+            <button class="btn-rest" onclick="setRest(2)">استراحة 🛋️</button>
+        </div>
+    </div>
 
-        <label>رابط الصورة (Image URL):</label>
-        <input type="text" id="imageUrlInput" value="https://assets.ngc.nvidia.com/products/api-catalog/phi-3-5-vision/example1b.jpg">
+    <!-- سجل المخرجات الحية Live Logs -->
+    <div class="control-card">
+        <div class="logs-header">
+            <span>> سجل المخرجات (Live Logs & AI Response)</span>
+            <span onclick="clearLogs()" style="cursor: pointer; color: #ef4444;">مسح السجل</span>
+        </div>
+        <div class="logs-box" id="liveLogs">
+// مرحباً بك! النظام متصل ومستعد لتلقي الأوامر...
+[جاهز]: انقر على "إرسال إلى الكمبيوتر" ليبدأ الوكيل بالعمل عبر نموذج Kimi K3.
+        </div>
+    </div>
 
-        <button onclick="sendTaskToAgent()">إرسال الوكيل إلى الكمبيوتر وبدء التنفيذ</button>
+    <div class="footer-status">
+        تطبيق محاكاة وكلاء الذكاء الاصطناعي | حالة الاتصال: <span class="active-dot">●</span> نشط (جاهز)
     </div>
 
     <script>
-        async function sendTaskToAgent() {
-            const agentId = document.getElementById('agentSelect').value;
-            const prompt = document.getElementById('promptInput').value;
-            const imageUrl = document.getElementById('imageUrlInput').value;
+        const logsBox = document.getElementById('liveLogs');
 
-            const avatar = document.getElementById(`avatar-${agentId}`);
-            const statusBadge = document.getElementById(`status-${agentId}`);
-            const logBox = document.getElementById(`log-${agentId}`);
+        function logMessage(msg) {
+            const timeStr = new Date().toLocaleTimeString();
+            logsBox.innerHTML += `\n[${timeStr}] ${msg}`;
+            logsBox.scrollTop = logsBox.scrollHeight;
+        }
 
-            avatar.innerHTML = "🚶‍♂️💻";
-            statusBadge.className = "status-badge status-walking";
-            statusBadge.innerText = "يمشي إلى الكمبيوتر...";
-            logBox.innerHTML += `\n[تنبيه]: الوكيل ${agentId} يتحرك نحو مكتبه للعمل...`;
+        function clearLogs() {
+            logsBox.innerHTML = "// تم مسح السجل.";
+        }
 
-            setTimeout(async () => {
-                avatar.innerHTML = "💻⚡";
-                statusBadge.className = "status-badge status-working";
-                statusBadge.innerText = "جاري تنفيذ المهمة...";
-                logBox.innerHTML += `\n[AI]: متصل بنموذج Kimi K3 عبر السيرفر...`;
+        function setRest(agentId) {
+            document.getElementById(`room-${agentId}`).innerHTML = "🪑🛋️";
+            document.getElementById(`status-text-${agentId}`).innerText = "مستريح على الأريكة";
+            document.getElementById(`badge-${agentId}`).innerText = "مستريح على الأريكة";
+            logMessage(`[استراحة]: الوكيل ${agentId} عاد للاستراحة واسترخى.`);
+        }
 
-                try {
-                    const response = await fetch('/api/run-agent', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ agent_id: parseInt(agentId), prompt: prompt, image_url: imageUrl })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if(data.status === "success") {
-                        logBox.innerHTML += `\n[النتيجة]: ${data.result}`;
-                    } else {
-                        logBox.innerHTML += `\n[خطأ]: ${data.message}`;
-                    }
-                } catch (err) {
-                    logBox.innerHTML += `\n[خطأ اتصال]: ${err}`;
+        async function runAgent(agentId) {
+            const promptText = document.getElementById(`prompt-${agentId}`).value;
+            const roomEl = document.getElementById(`room-${agentId}`);
+            const statusText = document.getElementById(`status-text-${agentId}`);
+            const badgeEl = document.getElementById(`badge-${agentId}`);
+
+            // 1. يتحرك للكمبيوتر
+            roomEl.innerHTML = "🚶‍♂️💻 ⚡";
+            statusText.innerText = "يعمل على الكمبيوتر...";
+            badgeEl.innerText = "جاري العمل...";
+            logMessage(`[بدء مهمة]: الوكيل ${agentId} توجه إلى الكمبيوتر لتنفيذ: "${promptText}"`);
+
+            try {
+                const response = await fetch('/api/run-agent', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        agent_id: agentId, 
+                        prompt: promptText, 
+                        image_url: "https://assets.ngc.nvidia.com/products/api-catalog/phi-3-5-vision/example1b.jpg" 
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    logMessage(`\n--- [رد الذكاء الاصطناعي - الوكيل ${agentId}] ---\n${data.result}\n------------------------------------------`);
+                } else {
+                    logMessage(`[خطأ من الخادم]: ${data.message}`);
                 }
 
-                setTimeout(() => {
-                    avatar.innerHTML = "🛋️☕";
-                    statusBadge.className = "status-badge status-idle";
-                    statusBadge.innerText = "في الاستراحة";
-                    logBox.innerHTML += `\n[إنهاء]: انتهى العمل وعاد الوكيل للاستراحة.`;
-                    logBox.scrollTop = logBox.scrollHeight;
-                }, 1500);
+            } catch (err) {
+                logMessage(`[خطأ اتصال]: لم يتمكن الوكيل من الوصول للخادم (${err})`);
+            }
 
-            }, 2000);
+            // 2. انتهاء المهمة والعودة للاستراحة تلقائياً
+            setTimeout(() => {
+                setRest(agentId);
+                logMessage(`[إنهاء]: أتم الوكيل ${agentId} المهمة بنجاح وعاد لمكان الاستراحة.`);
+            }, 1000);
         }
     </script>
 </body>
