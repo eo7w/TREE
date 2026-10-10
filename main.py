@@ -1,16 +1,15 @@
 import os
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 import requests
-from fastapi import Request
 
 app = FastAPI()
 
-# إعداد القوالب لعرض الواجهة
-templates = Jinja2Templates(directory="templates")
+# تحديد المسار المطلق لمجلد templates لتجنب أخطاء السيرفر
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 class AgentTaskRequest(BaseModel):
     agent_id: int
@@ -25,7 +24,6 @@ async def read_index(request: Request):
 async def run_agent_task(data: AgentTaskRequest):
     invoke_url = "https://integrate.api.nvidia.com/v1/chat/completions"
     
-    # استخدام مفتاحك المباشر أو سحبه من متغيرات البيئة في Render
     api_key = os.getenv("NVIDIA_API_KEY", "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")
     
     headers = {
@@ -62,10 +60,7 @@ async def run_agent_task(data: AgentTaskRequest):
     try:
         response = requests.post(invoke_url, headers=headers, json=payload)
         res_data = response.json()
-        
-        # استخراج رد النموذج الذكي
         answer = res_data.get("choices", [{}])[0].get("message", {}).get("content", "تم تنفيذ المهمة بنجاح.")
         return {"status": "success", "agent_id": data.agent_id, "result": answer}
-    
     except Exception as e:
         return {"status": "error", "message": str(e)}
