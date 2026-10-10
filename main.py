@@ -7,7 +7,6 @@ import requests
 
 app = FastAPI()
 
-# تحديد المسار المطلق لمجلد templates لتجنب أخطاء السيرفر
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
@@ -18,7 +17,8 @@ class AgentTaskRequest(BaseModel):
 
 @app.get("/", response_class=HTMLResponse)
 async def read_index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    # التعديل هنا لتوافق الإصدار الحديث
+    return templates.TemplateResponse(request, "index.html", {})
 
 @app.post("/api/run-agent")
 async def run_agent_task(data: AgentTaskRequest):
